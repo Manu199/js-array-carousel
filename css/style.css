@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.hide {
+  display: none;
+}
+
 .main-wrapper {
   height: 100vh;
   display: flex;
@@ -45,6 +49,7 @@
   text-align: center;
   left: 50%;
   transform: translate(-50%);
+  cursor: pointer;
 }
 
 .btn-arrow.top{
