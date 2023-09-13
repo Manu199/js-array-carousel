@@ -5,7 +5,7 @@
 }
 
 .hide {
-  display: none;
+  display: none;  
 }
 
 .main-wrapper {
@@ -28,11 +28,12 @@
   position: relative;
 }
 
-.items-wrapper {
+.items-Wrapper {
   height: 100%;
+  width: 100%;
 }
 
-.items-wrapper img {
+.item {
   height: 100%;
   width: 100%;
   object-fit: cover;
