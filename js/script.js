@@ -18,7 +18,7 @@
 const itemsWrapper = document.querySelector('.items-Wrapper');
 const btnNext = document.querySelector('.bottom');
 const btnPrev = document.querySelector('.top');
-
+const thumbs = document.querySelector('.thumbs');
 
 
 const images = [
@@ -41,19 +41,30 @@ for (let i = 0; i < images.length; i++) {
   const image = images[i];
   console.log(image);
   itemsWrapper.innerHTML += `<img src="${image}" class="item hide" >`;
+
+  const thumb = new Image();
+  thumb.src = image;
+  thumb.classList.add('thumb');
+  thumbs.append(thumb);
+  
 }
 
 const itemsCollection = document.getElementsByClassName('item');
 
 itemsCollection[counterImg].classList.remove('hide');
 
+const thumbsCollection = document.getElementsByClassName('thumb');
+
+thumbsCollection[counterImg].classList.add('active');
+
 btnNext.addEventListener('click', function(){
   
   itemsCollection[counterImg].classList.add('hide');
-
+  thumbsCollection[counterImg].classList.remove('active')
   counterImg++;
-
   itemsCollection[counterImg].classList.remove('hide');
+  thumbsCollection[counterImg].classList.add('active');
+
 
   btnPrev.classList.remove('hide');
 
@@ -67,10 +78,12 @@ btnNext.addEventListener('click', function(){
 btnPrev.addEventListener('click', function(){
 
   itemsCollection[counterImg].classList.add('hide');
+  thumbsCollection[counterImg].classList.remove('active')
 
   counterImg--;
   
   itemsCollection[counterImg].classList.remove('hide');
+  thumbsCollection[counterImg].classList.add('active')
 
   btnNext.classList.remove('hide');
 
