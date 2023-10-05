@@ -19,76 +19,104 @@ const itemsWrapper = document.querySelector('.items-Wrapper');
 const btnNext = document.querySelector('.bottom');
 const btnPrev = document.querySelector('.top');
 const thumbs = document.querySelector('.thumbs');
-
-
+const text = document.querySelector('.text')
 const images = [
+  {
+    image: 'img/01.webp',
+    title: 'Marvel\'s Spiderman Miles Morales',
+    text: 'Experience the rise of Miles Morales as the new hero masters incredible, explosive new powers to become his own Spider-Man.',
+  }, {
+    image: 'img/02.webp',
+    title: 'Ratchet & Clank: Rift Apart',
+    text: 'Go dimension-hopping with Ratchet and Clank as they take on an evil emperor from another reality.',
+  }, {
+    image: 'img/03.webp',
+    title: 'Fortnite',
+    text: "Grab all of your friends and drop into Epic Games Fortnite, a massive 100 - player face - off that combines looting, crafting, shootouts and chaos.",
+  }, {
+    image: 'img/04.webp',
+    title: 'Stray',
+    text: 'Lost, injured and alone, a stray cat must untangle an ancient mystery to escape a long-forgotten city',
+  }, {
+    image: 'img/05.webp',
+    title: "Marvel's Avengers",
+    text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
+  }
+];
+
+let counterImg = 0;
+
+function createImageElement(src, title, text, index) {
+  const div = document.createElement('div');
+  div.classList.add('item');
   
-  '../img/01.webp',
-  '../img/02.webp',
-  '../img/03.webp',
-  '../img/04.webp',
-  '../img/05.webp',
+  const img = new Image();
+  img.src = src;
+  div.appendChild(img);
   
-]
-
-console.log(images);
-
-let counterImg = 0;  
-
-itemsWrapper.innerHTML= '';
-
-for (let i = 0; i < images.length; i++) {
-  const image = images[i];
-  console.log(image);
-  itemsWrapper.innerHTML += `<img src="${image}" class="item hide" >`;
-
-  const thumb = new Image();
-  thumb.src = image;
-  thumb.classList.add('thumb');
-  thumbs.append(thumb);
+  const titleElement = document.createElement('h3');
+  titleElement.textContent = title;
+  div.appendChild(titleElement);
   
+  const textElement = document.createElement('p');
+  textElement.textContent = text;
+  div.appendChild(textElement);
+  
+  if (index !== counterImg) {
+    div.classList.add('hide');
+  }
+  
+  return div;
 }
 
-const itemsCollection = document.getElementsByClassName('item');
-
-itemsCollection[counterImg].classList.remove('hide');
-
-const thumbsCollection = document.getElementsByClassName('thumb');
-
-thumbsCollection[counterImg].classList.add('active');
-
-btnNext.addEventListener('click', function(){
+function createThumbElement(src, index) {
+  const thumb = new Image();
+  thumb.src = src;
+  thumb.classList.add('thumb');
   
+  if (index === counterImg) {
+    thumb.classList.add('active');
+  }
+  return thumb;
+}
+
+const itemsCollection = images.map((item, index) => {
+  const imageElement = createImageElement(item.image, item.title, item.text, index);
+  itemsWrapper.appendChild(imageElement);
+  return imageElement;
+});
+
+const thumbsCollection = images.map((src, index) => {
+  const thumbElement = createThumbElement(src, index);
+  thumbs.appendChild(thumbElement);
+  return thumbElement;
+});
+
+function updateButtonsVisibility() {
+  btnPrev.classList.toggle('hide', counterImg === 0);
+  btnNext.classList.toggle('hide', counterImg === images.length - 1);
+}
+
+updateButtonsVisibility();
+
+btnNext.addEventListener('click', function () {
   itemsCollection[counterImg].classList.add('hide');
-  thumbsCollection[counterImg].classList.remove('active')
-  counterImg++;
+  thumbsCollection[counterImg].classList.remove('active');
+  counterImg = (counterImg + 1) % images.length;
   itemsCollection[counterImg].classList.remove('hide');
   thumbsCollection[counterImg].classList.add('active');
+  updateButtonsVisibility();
+});
 
-
-  btnPrev.classList.remove('hide');
-
-  if(counterImg === itemsCollection.length - 1){
-
-    btnNext.classList.add('hide');
-
-  }
-})
-
-btnPrev.addEventListener('click', function(){
-
+btnPrev.addEventListener('click', function () {
   itemsCollection[counterImg].classList.add('hide');
-  thumbsCollection[counterImg].classList.remove('active')
-
-  counterImg--;
-  
+  thumbsCollection[counterImg].classList.remove('active');
+  counterImg = (counterImg - 1 + images.length) % images.length;
   itemsCollection[counterImg].classList.remove('hide');
-  thumbsCollection[counterImg].classList.add('active')
+  thumbsCollection[counterImg].classList.add('active');
+  updateButtonsVisibility();
+});
 
-  btnNext.classList.remove('hide');
-
-  if(counterImg === 0) btnPrev.classList.add('hide');
-
-
-})
-
+// let showNextImgInterval = setInterval(function () {
+//   btnNext.click(); // Trigger a click event on the next button
+// }, 2500);

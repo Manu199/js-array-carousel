@@ -49,6 +49,7 @@
   height: calc(100% / 5);
   object-fit: cover;
   opacity: .5;
+  
 }
 
 .thumbs img.active{
@@ -90,5 +91,11 @@
 
 .btn-arrow.bottom{
   bottom: 10px;
+}
+
+h3 {
+  z-index: 11;
+  position: absolute;
+  width: 100%;
 }
 
